@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nfs-volume-pod
+  labels:
+    name: nfs-volume-pod
+    type: test
+spec:
+  volumes:
+    - name: nfs-pv
+      persistentVolumeClaim:
+        claimName: nfs-pvc
+  containers:
+  - name: nfs-volume-pod
+    image: nginx
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 80
+        name: "http-server"
+    volumeMounts:
+      - mountPath: "/usr/share/nginx/html"
+        name: nfs-pv

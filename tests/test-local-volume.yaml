@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: local-volume-pod
+  labels:
+    name: local-volume-pod
+    type: test
+spec:
+  volumes:
+    - name: local-pv
+      persistentVolumeClaim:
+        claimName: local-pvc
+  containers:
+  - name: local-volume-pod
+    image: nginx
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 80
+        name: "http-server"
+    volumeMounts:
+      - mountPath: "/usr/share/nginx/html"
+        name: local-pv
